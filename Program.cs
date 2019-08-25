@@ -28,14 +28,23 @@ class Solution {
         // Create place for the results.
         // Alice's score is result[0]
         // Bob's score is result[1]
-        // In a language with pointers, I'd alias each element with a friendly name.
+        // In a language with pointers, I'd alias each element with a friendly name to make 
+        // that less easy to be confused.
 
         List<int> result = new List<int>(2) {0, 0};
 
         // Implementation.
         // A couple of choices: 
-        // - an iterator that walks through a[i] looking at b[i] -- supplying a lamba appied at each a[i] that is the comparator
+        // - an iterator that walks through a[i] looking at b[i] -- supplying a static function or lamba 
+        //   applied at each a[i] that is the comparator.
         // - a simple for loop 
+        // I'm going with a simple loop as I think that is the most clear translation of the problem 
+        // statement (code that is easy to understand and trace to requirements is better than code
+        // that is clever or terse) and because I am generally grumpy about lambdas.  I see junior
+        // engineers cramming all kinds of logic into lambas for the sake of chasing a shiny language
+        // feature, to the deteriment of readability and debuggability.
+        // (Though I might concede that the logic here is simple enough to be a reasonable case for a
+        // lamba expression.)
 
         for (int i = 0; i < a.Count; ++i) 
         {
