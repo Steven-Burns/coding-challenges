@@ -1,0 +1,27 @@
+
+TARGETNAME=tree
+
+TARGETPATH=obj\*
+
+TARGETTYPE=UMAPPL_NOLIB
+
+TARGETLIBS=
+
+SOURCES=tree.cpp 
+
+UMTYPE=console
+
+UMAPPL=tree
+
+UMLIBS=\
+	$(BASEDIR)\public\sdk\lib\*\ntdll.lib		\
+	$(BASEDIR)\public\sdk\lib\*\ole32.lib       \
+	$(BASEDIR)\public\sdk\lib\*\ntdsapi.lib       \
+
+
+USE_NATIVE_EH=1
+USE_MSVCRT=1
+USE_RTTI=1
+
+# required for STL (list, vector, string, etc.)
+USE_STL=1
