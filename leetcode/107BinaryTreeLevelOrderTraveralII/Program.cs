@@ -1,23 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
-using MyTuple = System.Tuple<TreeNode, int>;
-
 
 namespace _107BinaryTreeLevelOrderTraveralII
 {
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     public int val;
- *     public TreeNode left;
- *     public TreeNode right;
- *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
+    using MyTuple = System.Tuple<TreeNode, int>;
+
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Hello World!");
+        }
+    }
+
+    // Definition for a binary tree node.
+    public class TreeNode {
+        public int val;
+        public TreeNode left;
+        public TreeNode right;
+        public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
+
 
 
 public class Solution 
@@ -38,62 +47,48 @@ var t = (Message:"Hello", SomeNumber:4);
             return new List<IList<int>>();
         }
 
+        Stack<IList<int>> s = new Stack<IList<int>>();
         List<MyTuple> q = new List<MyTuple>();
-        q.Add(new MyTuple(root, 0));
-        int index = 0;
-        int maxLevels = 0;
-        while (index < q.Count) 
+
+        IList<int> currentLevelList = new List<int>();
+        int currentLevel = 0;
+        int qIndex = 0;
+
+        q.Add(new MyTuple(root, currentLevel));
+        while (qIndex < q.Count) 
         {
             // C# docs say that List<T> indexing is O(1). 
-            MyTuple t = q[index];
+            MyTuple t = q[qIndex];
+            int newLevel = t.Item2 + 1;
+
             if (null != t.Item1.left) 
             {
-                int newLevel = t.Item2 + 1;
                 q.Add(new MyTuple(t.Item1.left, newLevel));
-                maxLevels = Math.Max(maxLevels, newLevel);
             }
             if (null != t.Item1.right)
             {
-                int newLevel = t.Item2 + 1;
                 q.Add(new MyTuple(t.Item1.right, newLevel));                  
-                maxLevels = Math.Max(maxLevels, newLevel);
             }
-            ++index;
-        }
-
-        // At this point, q, is a list of tuples where the first item is a TreeNode
-        // and the second item is the level of that node in the tree.
-
-        // Compose sub-lists consisting of just the values from the same level.
-        index = 0;
-        IList<IList<int>> result = new IList<int>[maxLevels + 1];
-        IList<int> currentLevelList = new List<int>();
-        int currentLevel = 0;
-        while (index < q.Count) 
-        {
-            MyTuple t = q[index];
             if (t.Item2 != currentLevel)
             {
-                // we're done forming the currentLevelList
-                result[maxLevels - currentLevel] = currentLevelList;
+                // level we're working on has changed, so we're done forming 
+                // the currentLevelList.
+                s.Push(currentLevelList);
                 currentLevelList = new List<int>();
             }
             currentLevelList.Add(t.Item1.val);
             currentLevel = t.Item2;
-            ++index;
+
+            ++qIndex;
         }
-        result[0] = currentLevelList;
-        
-        return result;
+        s.Push(currentLevelList);
+     
+        // Conversion to some container type that implements IList would not be necessary
+        // if the challenge interface's desired result type was IEnumerable<IEnumerable<T>>.
+        // ToArray() is super slow.
+        return s.ToArray();
     }
 
+}
 
-
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
-    }
 }
